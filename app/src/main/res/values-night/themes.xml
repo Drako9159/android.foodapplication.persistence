@@ -3,5 +3,26 @@
     <style name="Base.Theme.Reto5UVEG" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:statusBarColor">@color/status_bar</item>
+        <item name="android:navigationBarColor">@color/status_bar</item>
+
+        <item name="android:popupMenuStyle">@style/MyPopupMenu</item>
     </style>
+
+
+    <style name="Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/secondary</item>
+    </style>
+
+    <style name="Body" parent="Title">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="MyPopupMenu" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@color/secondary</item>
+    </style>
+
 </resources>
