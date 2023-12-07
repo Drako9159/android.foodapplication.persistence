@@ -3,14 +3,13 @@ package com.example.reto5uveg.tab;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.reto5uveg.R;
 import com.example.reto5uveg.adapter.RecyclerViewFoodAdapter;
@@ -76,47 +75,40 @@ public class TabDrink extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab_drink, container, false);
-/*
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewFood);
-        restaurantId = view.;
-        buildRecyclerView();*/
+        restaurantId = getArguments().getInt("restaurant_id", 0);
+        buildRecyclerView();
         return view;
     }
 
 
-
-    // HERE
-    /*
     public void buildRecyclerView() {
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         foodArrayList = new ArrayList<>();
 
         FoodDBHelper foodDBHelper = new FoodDBHelper(getContext());
         SQLiteDatabase sqLiteDatabase = foodDBHelper.getReadableDatabase();
+        FoodType foodType = FoodType.DRINK;
+        String sql = "SELECT * FROM " + FoodContract.FoodEntry.TABLE_NAME +
+                " WHERE restaurant_id=" + restaurantId+
+                " AND food_type='"+foodType.toString()+"'";
 
-
-
-        String sql = "SELECT * FROM " + FoodContract.FoodEntry.TABLE_NAME + " WHERE restaurant_id=" + restaurantId;
         Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
 
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("name"));
             Double price = cursor.getDouble(cursor.getColumnIndex("price"));
             String description = cursor.getString(cursor.getColumnIndex("description"));
-            FoodType foodType = FoodType.FOOD;
-            if(cursor.getString(cursor.getColumnIndex("food_type")) == "FOOD") foodType = FoodType.FOOD;
-            if(cursor.getString(cursor.getColumnIndex("food_type")) == "DRINK") foodType = FoodType.DRINK;
-            if(cursor.getString(cursor.getColumnIndex("food_type")) == "COMPLEMENT") foodType = FoodType.COMPLEMENT;
 
             int restaurant_id = cursor.getInt(cursor.getColumnIndex("restaurant_id"));
             int _id = cursor.getInt(cursor.getColumnIndex("_id"));
+
             foodArrayList.add(new Food(_id, name, price, description, foodType, restaurant_id));
         }
-    }*/
-
-
-
+        sqLiteDatabase.close();
+        RecyclerViewFoodAdapter adapter = new RecyclerViewFoodAdapter(getContext(), foodArrayList);
+        recyclerView.setAdapter(adapter);
+    }
 
 
 }

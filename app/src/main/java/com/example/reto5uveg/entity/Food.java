@@ -2,8 +2,8 @@ package com.example.reto5uveg.entity;
 
 
 public class Food {
-    private int _id = 0;
-    private int restaurant_id = 0;
+    private int _id = -1;
+    private int restaurant_id = -1;
     private String name = "";
     private Double price = 0.0;
     private String description = "";

@@ -10,7 +10,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -99,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddRestaurantActivity.class);
             Restaurant restaurant = restaurantArrayList.get(recyclerViewItemSelected);
             // not get id bug
-            Toast.makeText(this, recyclerViewItemSelected+"e", Toast.LENGTH_SHORT).show();
             intent.putExtra("name", restaurant.getName());
             intent.putExtra("_id", restaurant.get_id());
             startActivity(intent);

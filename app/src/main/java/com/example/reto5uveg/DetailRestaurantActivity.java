@@ -1,32 +1,31 @@
 package com.example.reto5uveg;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.reto5uveg.entity.Food;
-import com.example.reto5uveg.entity.FoodType;
-import com.example.reto5uveg.persistence.FoodContract;
-import com.example.reto5uveg.persistence.FoodDBHelper;
 import com.example.reto5uveg.tab.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class DetailRestaurantActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
 
+    private int recyclerViewItemSelected;
     private ArrayList<Food> foodArrayList;
     private String restaurantName;
     private int restaurantId;
@@ -68,56 +67,19 @@ public class DetailRestaurantActivity extends AppCompatActivity {
 
     }
 
-    public void buildRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        foodArrayList = new ArrayList<>();
-        FoodDBHelper foodDBHelper = new FoodDBHelper(this);
-        SQLiteDatabase sqLiteDatabase = foodDBHelper.getReadableDatabase();
-
-        String sql = "SELECT * FROM " + FoodContract.FoodEntry.TABLE_NAME + " WHERE restaurant_id=" + restaurantId;
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-
-        while (cursor.moveToNext()) {
-            String name = cursor.getString(cursor.getColumnIndex("name"));
-            Double price = cursor.getDouble(cursor.getColumnIndex("price"));
-            String description = cursor.getString(cursor.getColumnIndex("description"));
-            FoodType foodType = FoodType.FOOD;
-            if(cursor.getString(cursor.getColumnIndex("food_type")) == "FOOD") foodType = FoodType.FOOD;
-            if(cursor.getString(cursor.getColumnIndex("food_type")) == "DRINK") foodType = FoodType.DRINK;
-            if(cursor.getString(cursor.getColumnIndex("food_type")) == "COMPLEMENT") foodType = FoodType.COMPLEMENT;
-
-            int restaurant_id = cursor.getInt(cursor.getColumnIndex("restaurant_id"));
-            int _id = cursor.getInt(cursor.getColumnIndex("_id"));
-            foodArrayList.add(new Food(_id, name, price, description, foodType, restaurant_id));
-        }
-    }
-
-
 
     public void generateTabs() {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewPager);
-
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount(), restaurantId, restaurantName);
         viewPager.setAdapter(viewPagerAdapter);
-/*
-        String footType = getIntent().getStringExtra("food_type");
-        if (Objects.equals(footType, "food_frame")) {
-            viewPager.setCurrentItem(0);
-        }
-        if (Objects.equals(footType, "drink_frame")) {
-            viewPager.setCurrentItem(1);
-        }
-        if (Objects.equals(footType, "complement_frame")) {
-            viewPager.setCurrentItem(2);
-        }*/
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == (0 | 1 | 2)) {
                     viewPagerAdapter.notifyDataSetChanged();
+
                 }
             }
 
@@ -131,4 +93,30 @@ public class DetailRestaurantActivity extends AppCompatActivity {
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_options_bar, menu);
+        return true;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_options_bar, menu);
+    }
+/*
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.editItem) {
+            Intent intent = new Intent(this, AddFoodActivity.class);
+            Food food = foodArrayList.get(recyclerViewItemSelected);
+            intent.putExtra("name", food.getName());
+            startActivity(intent);
+            return true;
+        }
+        return super.onContextItemSelected(item);
+    }*/
 }

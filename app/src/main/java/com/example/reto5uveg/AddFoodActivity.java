@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.reto5uveg.entity.FoodType;
 import com.example.reto5uveg.persistence.FoodContract;
 import com.example.reto5uveg.persistence.FoodDBHelper;
 import com.example.reto5uveg.utils.CustomSpinnerAdapter;
@@ -89,17 +88,16 @@ public class AddFoodActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerType.setAdapter(adapter);
 
-        if(Objects.equals(foodType, "FOOD")) spinnerType.setSelection(1);
-        if(Objects.equals(foodType, "DRINK")) spinnerType.setSelection(2);
-        if(Objects.equals(foodType, "COMPLEMENT")) spinnerType.setSelection(3);
+        if (Objects.equals(foodType, "FOOD")) spinnerType.setSelection(1);
+        if (Objects.equals(foodType, "DRINK")) spinnerType.setSelection(2);
+        if (Objects.equals(foodType, "COMPLEMENT")) spinnerType.setSelection(3);
 
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selectedType = tipos[position];
 
-                //Toast.makeText(getApplicationContext(), "Seleccionado: " + selectedType, Toast.LENGTH_SHORT).show();
-                if (Objects.equals(selectedType, "FOOD")) foodType = "FOOD";
+                if (Objects.equals(selectedType, "COMIDA")) foodType = "FOOD";
                 if (Objects.equals(selectedType, "BEBIDA")) foodType = "DRINK";
                 if (Objects.equals(selectedType, "COMPLEMENTO")) foodType = "COMPLEMENT";
             }
@@ -115,9 +113,20 @@ public class AddFoodActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 createFood();
-                //Toast.makeText(AddFoodActivity.this, foodType, Toast.LENGTH_SHORT).show();
-                //Toast.makeText(AddFoodActivity.this, FoodType.COMPLEMENT.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteFood();
+            }
+        });
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateFood();
             }
         });
     }
@@ -130,6 +139,7 @@ public class AddFoodActivity extends AppCompatActivity {
         String name = etFoodName.getText().toString();
         double price = Double.parseDouble(etFoodPrice.getText().toString());
         String description = etFoodDescription.getText().toString();
+
 
         if (!name.isEmpty() && !description.isEmpty()) {
             ContentValues contentValues = new ContentValues();
@@ -156,5 +166,62 @@ public class AddFoodActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void updateFood() {
+        FoodDBHelper storeDBHelper = new FoodDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = storeDBHelper.getWritableDatabase();
+
+        String name = etFoodName.getText().toString();
+        double price = Double.parseDouble(etFoodPrice.getText().toString());
+        String description = etFoodDescription.getText().toString();
+
+        if (!name.isEmpty() && !description.isEmpty()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("name", name);
+            contentValues.put("price", price);
+            contentValues.put("description", description);
+            contentValues.put("food_type", foodType);
+
+            long count = sqLiteDatabase.update(
+                    FoodContract.FoodEntry.TABLE_NAME,
+                    contentValues, "_id=" + foodSelectedId, null
+            );
+            if (count != 0) {
+                Intent intent = new Intent(this, DetailRestaurantActivity.class);
+                intent.putExtra("restaurant_id", restaurantId);
+                intent.putExtra("restaurant_name", restaurantName);
+                startActivity(intent);
+                Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Error, intenta otra vez", Toast.LENGTH_SHORT).show();
+            }
+            sqLiteDatabase.close();
+        } else {
+            Toast.makeText(this, "Todos los campos son requeridos", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void deleteFood() {
+        FoodDBHelper storeDBHelper = new FoodDBHelper(this);
+        SQLiteDatabase sqLiteDatabase = storeDBHelper.getWritableDatabase();
+
+        int count = sqLiteDatabase.delete(
+                FoodContract.FoodEntry.TABLE_NAME,
+                "_id=" + foodSelectedId, null
+        );
+        if (count != 0) {
+            Intent intent = new Intent(this, DetailRestaurantActivity.class);
+            intent.putExtra("restaurant_id", restaurantId);
+            intent.putExtra("restaurant_name", restaurantName);
+            startActivity(intent);
+            Toast.makeText(this, "Producto eliminado", Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(this, "Error, intenta otra vez", Toast.LENGTH_SHORT).show();
+
+        }
+        sqLiteDatabase.close();
+
     }
 }

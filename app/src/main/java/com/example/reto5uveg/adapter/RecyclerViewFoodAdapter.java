@@ -80,8 +80,8 @@ public class RecyclerViewFoodAdapter extends RecyclerView.Adapter<RecyclerViewFo
             linearLayout = (LinearLayout) itemView.findViewById(R.id.layoutRestaurantItem);
             tvName = (TextView) itemView.findViewById(R.id.tvFoodName);
             tvPrice = (TextView) itemView.findViewById(R.id.tvFoodPrice) ;
-            linearLayout.setOnClickListener(this);
-            linearLayout.setOnCreateContextMenuListener(this);
+            //linearLayout.setOnClickListener(this);
+            //linearLayout.setOnCreateContextMenuListener(this);
         }
 
         public void setValues(Food food) {
