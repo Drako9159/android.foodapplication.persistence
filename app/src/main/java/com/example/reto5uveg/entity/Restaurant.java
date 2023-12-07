@@ -1,8 +1,8 @@
 package com.example.reto5uveg.entity;
 
 public class Restaurant {
-    private int _id;
-    private String name;
+    private int _id = -1;
+    private String name = "";
 
     public Restaurant(int _id, String name) {
         this._id = _id;

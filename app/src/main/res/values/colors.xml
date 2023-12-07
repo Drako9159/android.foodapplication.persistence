@@ -19,4 +19,8 @@
 
     <color name="nuevo_color_fondo">#FF0000</color>
 
+    <color name="spinnerTextColor">@color/secondary</color> <!-- Color de texto personalizado -->
+    <color name="spinnerDropdownTextColor">@color/toolbar_color</color> <!-- Color de texto en la lista desplegable -->
+
+
 </resources>

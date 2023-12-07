@@ -2,18 +2,28 @@ package com.example.reto5uveg.entity;
 
 
 public class Food {
-    private int _id;
-    private String name;
-    private Double price;
-    private String description;
-    private FoodType foodType;
+    private int _id = 0;
+    private int restaurant_id = 0;
+    private String name = "";
+    private Double price = 0.0;
+    private String description = "";
+    private FoodType foodType = FoodType.FOOD;
 
-    public Food(int _id, String name, Double price, String description, FoodType foodType) {
+    public int getRestaurant_id() {
+        return restaurant_id;
+    }
+
+    public void setRestaurant_id(int restaurant_id) {
+        this.restaurant_id = restaurant_id;
+    }
+
+    public Food(int _id, String name, Double price, String description, FoodType foodType, int restaurantId) {
         this._id = _id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.foodType = foodType;
+        this.restaurant_id = restaurantId;
     }
 
     public int get_id() {

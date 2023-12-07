@@ -6,7 +6,7 @@
     android:background="@color/status_bar"
     android:orientation="vertical"
 
-    tools:context=".AddRestaurantActivity">
+    tools:context=".AddFoodActivity">
 
     <include
         layout="@layout/toolbar"
@@ -32,10 +32,59 @@
             style="@style/Body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
             android:hint="Ingresa el nombre"
             android:textColor="@color/white"
             android:textColorHint="@color/toolbar_color" />
+
+        <TextView
+            style="@style/Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Precio" />
+
+        <EditText
+            android:id="@+id/etPrice"
+            style="@style/Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ingresa el precio"
+            android:textColor="@color/white"
+            android:textColorHint="@color/toolbar_color" />
+
+        <TextView
+            style="@style/Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Descripción" />
+
+        <EditText
+            android:id="@+id/etDescription"
+            style="@style/Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:hint="Ingresa la descripción"
+            android:textColor="@color/white"
+            android:textColorHint="@color/toolbar_color" />
+
+        <TextView
+            style="@style/Body"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content"
+            android:text="Tipo" />
+
+
+        <Spinner
+            android:id="@+id/spinnerType"
+            style="@style/Body"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:entries="@array/tipos" />
+
 
         <Button
             android:id="@+id/btnCreate"

@@ -3,17 +3,19 @@
     android:id="@+id/layoutRestaurantItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:longClickable="true"
-    >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvRestaurantName"
         style="@style/Body"
-        android:longClickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:text="Restaurant Name" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/toolbar_color" />
 
 </LinearLayout>
