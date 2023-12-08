@@ -87,7 +87,7 @@ public class RecyclerViewFoodAdapter extends RecyclerView.Adapter<RecyclerViewFo
         }
 
         public void setValues(Food food) {
-            tvPrice.setText(food.getPrice() + "");
+            tvPrice.setText("$"+food.getPrice());
             tvName.setText(food.getName());
         }
 
@@ -97,7 +97,7 @@ public class RecyclerViewFoodAdapter extends RecyclerView.Adapter<RecyclerViewFo
             Food food = foodArrayList.get(getAdapterPosition());
             Intent intent = new Intent(context, DetailFoodActivity.class);
             intent.putExtra("food_name", food.getName());
-            intent.putExtra("food_price", "Precio: " + food.getPrice().toString() + "$");
+            intent.putExtra("food_price", "Precio: $" + food.getPrice().toString());
             intent.putExtra("food_description", food.getDescription());
             context.startActivity(intent);
         }
