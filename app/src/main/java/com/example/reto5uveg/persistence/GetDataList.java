@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.reto5uveg.entity.Food;
 import com.example.reto5uveg.entity.FoodType;
+import com.example.reto5uveg.entity.Restaurant;
 
 import java.util.ArrayList;
 
@@ -70,6 +71,22 @@ public class GetDataList {
         }
         sqLiteDatabase.close();
         return arrayList;
+    }
+
+    public static ArrayList<Restaurant> getDataRestaurant(Context context) {
+        ArrayList<Restaurant> restaurantArrayList = new ArrayList<>();
+        FoodDBHelper foodDBHelper = new FoodDBHelper(context);
+        SQLiteDatabase sqLiteDatabase = foodDBHelper.getReadableDatabase();
+
+        String sql = "SELECT * FROM " + FoodContract.RestaurantEntry.TABLE_NAME;
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex(FoodContract.RestaurantEntry.COLUMN_NAME));
+            int _id = cursor.getInt(cursor.getColumnIndex(FoodContract.RestaurantEntry._ID));
+            restaurantArrayList.add(new Restaurant(_id, name));
+        }
+        sqLiteDatabase.close();
+        return restaurantArrayList;
     }
 
 

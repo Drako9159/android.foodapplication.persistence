@@ -5,18 +5,16 @@ import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.reto5uveg.AddFoodActivity;
+import com.example.reto5uveg.CrudFoodActivity;
 import com.example.reto5uveg.DetailFoodActivity;
 import com.example.reto5uveg.R;
 import com.example.reto5uveg.entity.Food;
@@ -108,8 +106,8 @@ public class RecyclerViewFoodAdapter extends RecyclerView.Adapter<RecyclerViewFo
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             MenuItem editItem = menu.add(Menu.NONE, R.id.editItem, 1, "EDITAR");
-            editItem.setOnMenuItemClickListener(item->{
-                Intent intent = new Intent(context, AddFoodActivity.class);
+            editItem.setOnMenuItemClickListener(item -> {
+                Intent intent = new Intent(context, CrudFoodActivity.class);
                 Food food = foodArrayList.get(getAdapterPosition());
                 intent.putExtra("name", food.getName());
                 intent.putExtra("description", food.getDescription());

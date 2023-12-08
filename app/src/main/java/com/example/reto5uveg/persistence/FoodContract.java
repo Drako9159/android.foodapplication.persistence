@@ -7,7 +7,6 @@ public class FoodContract {
     private FoodContract() {
 
     }
-
     public static class FoodEntry implements BaseColumns {
         public static final String TABLE_NAME = "food";
         public static final String COLUMN_NAME = "name";

@@ -21,35 +21,30 @@ import com.example.reto5uveg.utils.CustomSpinnerAdapter;
 
 import java.util.Objects;
 
-public class AddFoodActivity extends AppCompatActivity {
-    private Bundle extras;
+public class CrudFoodActivity extends AppCompatActivity {
     private int restaurantId;
     private String restaurantName;
-
     private String foodType;
     private EditText etFoodName, etFoodPrice, etFoodDescription;
-
-    private Button btnCreate, btnUpdate, btnDelete;
-
     private int foodSelectedId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_food);
+        setContentView(R.layout.activity_crud_food);
 
         etFoodName = (EditText) findViewById(R.id.etName);
         etFoodDescription = (EditText) findViewById(R.id.etDescription);
         etFoodPrice = (EditText) findViewById(R.id.etPrice);
 
-        btnCreate = (Button) findViewById(R.id.btnCreate);
-        btnUpdate = (Button) findViewById(R.id.btnUpdate);
-        btnDelete = (Button) findViewById(R.id.btnDelete);
+        Button btnCreate = (Button) findViewById(R.id.btnCreate);
+        Button btnUpdate = (Button) findViewById(R.id.btnUpdate);
+        Button btnDelete = (Button) findViewById(R.id.btnDelete);
 
         btnUpdate.setVisibility(View.GONE);
         btnDelete.setVisibility(View.GONE);
 
-        extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
             if (extras.getString("name") != null) {
@@ -138,7 +133,6 @@ public class AddFoodActivity extends AppCompatActivity {
         String name = etFoodName.getText().toString();
         double price = Double.parseDouble(etFoodPrice.getText().toString());
         String description = etFoodDescription.getText().toString();
-
 
         if (!name.isEmpty() && !description.isEmpty()) {
             ContentValues contentValues = new ContentValues();

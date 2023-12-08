@@ -6,7 +6,7 @@
     android:background="@color/status_bar"
     android:orientation="vertical"
 
-    tools:context=".AddRestaurantActivity">
+    tools:context=".CrudRestaurantActivity">
 
     <include
         layout="@layout/toolbar"
