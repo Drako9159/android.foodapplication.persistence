@@ -1,14 +1,17 @@
 package com.example.reto5uveg.tab;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.reto5uveg.R;
+import com.example.reto5uveg.adapter.RecyclerViewFoodAdapter;
+import com.example.reto5uveg.persistence.GetDataList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +19,9 @@ import com.example.reto5uveg.R;
  * create an instance of this fragment.
  */
 public class TabComplement extends Fragment {
+    private String restaurantName;
+    private int restaurantId;
+    private RecyclerView recyclerView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,7 +66,21 @@ public class TabComplement extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tab_complement, container, false);
+        View view = inflater.inflate(R.layout.fragment_tab_complement, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewComplement);
+        restaurantId = getArguments().getInt("restaurant_id", 0);
+        restaurantName = getArguments().getString("restaurant_name");
+        generateListComplements();
+        return view;
+    }
+
+    public void generateListComplements() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        RecyclerViewFoodAdapter adapterComplement = new RecyclerViewFoodAdapter(getContext(), GetDataList.getDataComplement(getContext(), restaurantId), restaurantName);
+        recyclerView.setAdapter(adapterComplement);
+        adapterComplement.setOnLongItemCustomListener((v, position) -> {
+            v.showContextMenu();
+        });
+        registerForContextMenu(recyclerView);
     }
 }

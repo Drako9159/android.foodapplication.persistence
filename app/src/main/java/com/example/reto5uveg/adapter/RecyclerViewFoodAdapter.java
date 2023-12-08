@@ -4,18 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.reto5uveg.DetailRestaurantActivity;
+import com.example.reto5uveg.AddFoodActivity;
+import com.example.reto5uveg.DetailFoodActivity;
 import com.example.reto5uveg.R;
 import com.example.reto5uveg.entity.Food;
-import com.example.reto5uveg.entity.Restaurant;
 
 import java.util.ArrayList;
 
@@ -24,8 +28,11 @@ public class RecyclerViewFoodAdapter extends RecyclerView.Adapter<RecyclerViewFo
     private OnLongItemCustomListener onLongItemCustomListener;
     private Context context;
 
-    public RecyclerViewFoodAdapter(Context context, ArrayList<Food> foodArrayList) {
+    private String restaurantName;
+
+    public RecyclerViewFoodAdapter(Context context, ArrayList<Food> foodArrayList, String restaurantName) {
         this.context = context;
+        this.restaurantName = restaurantName;
         this.foodArrayList = foodArrayList;
     }
 
@@ -40,16 +47,13 @@ public class RecyclerViewFoodAdapter extends RecyclerView.Adapter<RecyclerViewFo
         return new RecyclerViewFoodAdapter.ViewHolder(view);
     }
 
-
     public interface OnLongItemCustomListener {
         void itemLongClicked(View v, int position);
     }
 
-
     public void setOnLongItemCustomListener(OnLongItemCustomListener onLongItemCustomListener) {
         this.onLongItemCustomListener = onLongItemCustomListener;
     }
-
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewFoodAdapter.ViewHolder holder, int position) {
@@ -70,40 +74,54 @@ public class RecyclerViewFoodAdapter extends RecyclerView.Adapter<RecyclerViewFo
         return foodArrayList.size();
     }
 
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         TextView tvName, tvPrice;
         LinearLayout linearLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.layoutRestaurantItem);
+            linearLayout = (LinearLayout) itemView.findViewById(R.id.layoutFoodItem);
             tvName = (TextView) itemView.findViewById(R.id.tvFoodName);
-            tvPrice = (TextView) itemView.findViewById(R.id.tvFoodPrice) ;
-            //linearLayout.setOnClickListener(this);
-            //linearLayout.setOnCreateContextMenuListener(this);
+            tvPrice = (TextView) itemView.findViewById(R.id.tvFoodPrice);
+            linearLayout.setOnClickListener(this);
+            linearLayout.setOnCreateContextMenuListener(this);
+
         }
 
         public void setValues(Food food) {
-            tvPrice.setText(food.getPrice()+"");
+            tvPrice.setText(food.getPrice() + "");
             tvName.setText(food.getName());
         }
 
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-
-        }
 
         @Override
         public void onClick(View v) {
-            /*
             Food food = foodArrayList.get(getAdapterPosition());
-            Intent intent = new Intent(context, DetailRestaurantActivity.class);
-            intent.putExtra("restaurant_name", food.getName());
-            intent.putExtra("restaurant_id", food.get_id());
-            context.startActivity(intent);*/
+            Intent intent = new Intent(context, DetailFoodActivity.class);
+            intent.putExtra("food_name", food.getName());
+            intent.putExtra("food_price", "Precio: " + food.getPrice().toString() + "$");
+            intent.putExtra("food_description", food.getDescription());
+            context.startActivity(intent);
+        }
+
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            MenuItem editItem = menu.add(Menu.NONE, R.id.editItem, 1, "EDITAR");
+            editItem.setOnMenuItemClickListener(item->{
+                Intent intent = new Intent(context, AddFoodActivity.class);
+                Food food = foodArrayList.get(getAdapterPosition());
+                intent.putExtra("name", food.getName());
+                intent.putExtra("description", food.getDescription());
+                intent.putExtra("price", food.getPrice());
+                intent.putExtra("food_type", food.getFoodType().toString());
+                intent.putExtra("_id", food.get_id());
+                intent.putExtra("restaurant_id", food.getRestaurant_id());
+                intent.putExtra("restaurant_name", restaurantName);
+                v.getContext().startActivity(intent);
+                return true;
+            });
         }
     }
-
 
 }

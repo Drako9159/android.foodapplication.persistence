@@ -49,7 +49,6 @@ public class AddFoodActivity extends AppCompatActivity {
         btnUpdate.setVisibility(View.GONE);
         btnDelete.setVisibility(View.GONE);
 
-
         extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -61,14 +60,13 @@ public class AddFoodActivity extends AppCompatActivity {
             etFoodName.setText(extras.getString("name"));
             etFoodPrice.setText("" + extras.getDouble("price", 0.0));
             etFoodDescription.setText(extras.getString("description"));
+
             foodSelectedId = extras.getInt("_id", 0);
             restaurantId = extras.getInt("restaurant_id", 0);
             restaurantName = extras.getString("restaurant_name");
+            foodType = extras.getString("food_type");
         }
 
-
-        String restaurantName = extras.getString("restaurant_name");
-        //restaurantId = extras.getInt("restaurant_id");
 
         ImageView ivAdd = (ImageView) findViewById(R.id.ivAdd);
         ivAdd.setVisibility(View.GONE);
@@ -87,10 +85,11 @@ public class AddFoodActivity extends AppCompatActivity {
         CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(this, android.R.layout.simple_spinner_item, tipos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerType.setAdapter(adapter);
+        spinnerType.setSelection(0);
 
-        if (Objects.equals(foodType, "FOOD")) spinnerType.setSelection(1);
-        if (Objects.equals(foodType, "DRINK")) spinnerType.setSelection(2);
-        if (Objects.equals(foodType, "COMPLEMENT")) spinnerType.setSelection(3);
+        if (Objects.equals(foodType, "FOOD")) spinnerType.setSelection(0);
+        if (Objects.equals(foodType, "DRINK")) spinnerType.setSelection(1);
+        if (Objects.equals(foodType, "COMPLEMENT")) spinnerType.setSelection(2);
 
         spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -182,6 +181,7 @@ public class AddFoodActivity extends AppCompatActivity {
             contentValues.put("price", price);
             contentValues.put("description", description);
             contentValues.put("food_type", foodType);
+
 
             long count = sqLiteDatabase.update(
                     FoodContract.FoodEntry.TABLE_NAME,

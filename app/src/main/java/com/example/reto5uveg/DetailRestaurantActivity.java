@@ -3,14 +3,11 @@ package com.example.reto5uveg;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -37,8 +34,10 @@ public class DetailRestaurantActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_restaurant);
 
         extras = getIntent().getExtras();
-        restaurantName = extras.getString("restaurant_name");
-        restaurantId = extras.getInt("restaurant_id");
+        if (extras != null) {
+            restaurantName = extras.getString("restaurant_name");
+            restaurantId = extras.getInt("restaurant_id", 0);
+        }
 
 
         ImageView ivAdd = (ImageView) findViewById(R.id.ivAdd);
@@ -79,7 +78,6 @@ public class DetailRestaurantActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(tab.getPosition());
                 if (tab.getPosition() == (0 | 1 | 2)) {
                     viewPagerAdapter.notifyDataSetChanged();
-
                 }
             }
 
@@ -93,7 +91,15 @@ public class DetailRestaurantActivity extends AppCompatActivity {
         });
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }
+/*
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_options_bar, menu);
+    }*/
 
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -101,22 +107,23 @@ public class DetailRestaurantActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_options_bar, menu);
-    }
+*/
+
+
 /*
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.editItem) {
-            Intent intent = new Intent(this, AddFoodActivity.class);
-            Food food = foodArrayList.get(recyclerViewItemSelected);
-            intent.putExtra("name", food.getName());
-            startActivity(intent);
+            Toast.makeText(this, "here", Toast.LENGTH_SHORT).show();
             return true;
         }
         return super.onContextItemSelected(item);
+    }*/
+
+    /*
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        return super.onContextItemSelected(item);
+
     }*/
 }

@@ -77,19 +77,14 @@ public class MainActivity extends AppCompatActivity {
         registerForContextMenu(recyclerView);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_options_bar, menu);
-        return true;
-    }
 
+/*
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_options_bar, menu);
-    }
+    }*/
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {

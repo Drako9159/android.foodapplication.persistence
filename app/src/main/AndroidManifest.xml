@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Reto5UVEG"
         tools:targetApi="31">
         <activity
+            android:name=".DetailFoodActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailRestaurantActivity"
             android:exported="false" />
         <activity

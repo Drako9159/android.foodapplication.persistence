@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.reto5uveg.entity.FoodType;
-
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-
     Bundle bundle = new Bundle();
     int behavior;
 
@@ -19,6 +16,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         this.behavior = behavior;
         bundle.putInt("restaurant_id", restaurantId);
         bundle.putString("restaurant_name", restaurantName);
+
     }
 
     @NonNull
@@ -41,6 +39,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 return null;
         }
     }
+
 
     @Override
     public int getCount() {
